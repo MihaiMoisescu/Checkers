@@ -20,7 +20,6 @@ namespace Checkers.Services
 
 
         public static Cell CurrentCell { get; set; }
-        public static Cell PreviousCell { get; set; }
 
         public static ObservableCollection<ObservableCollection<Cell>> InitBoard()
         {
@@ -48,6 +47,15 @@ namespace Checkers.Services
                 }
             }
             return board;
+        }
+        public static void ResetGame(ObservableCollection<ObservableCollection<Cell>> board)
+        {
+            board.Clear();
+            board = InitBoard();
+        }
+        public static bool IsCellEmpty(Cell cell)
+        {
+            return cell.Piece == null;
         }
     }
 

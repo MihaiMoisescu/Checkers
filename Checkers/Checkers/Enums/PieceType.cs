@@ -10,6 +10,5 @@ namespace Checkers.Enums
     {
         Regular,
         King,
-        None=0
     }
 }

@@ -30,7 +30,7 @@ namespace Checkers.ViewModels
                 for (int j = 0; j < board[i].Count; j++)
                 {
                     Cell c = board[i][j];
-                    CellVM cellVM = new CellVM(new Position(c.Position.X,c.Position.Y),c.Background,c.CellType,c.Piece,businessLogic);
+                    CellVM cellVM = new CellVM(c,businessLogic);
                     line.Add(cellVM);
                 }
                 result.Add(line);

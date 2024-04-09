@@ -4,6 +4,7 @@ using Checkers.Models;
 using Checkers.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,15 +12,26 @@ using System.Windows.Input;
 
 namespace Checkers.ViewModels
 {
-    class CellVM
+    class CellVM :BaseNotification
     {
-        GameBusinessLogic _businessLogic;
-        public CellVM(Position position,string background,CellType cellType,Piece piece,GameBusinessLogic businessLogic)
+        private GameBusinessLogic _businessLogic;
+        private Cell _gameCell;
+        public CellVM(Cell cell,GameBusinessLogic businessLogic)
         {
-            GameCell = new Cell(position, background, cellType, piece);
+            GameCell = cell;
             this._businessLogic = businessLogic;
         }
-        public Cell GameCell { get; set; }
+        public Cell GameCell { 
+            get
+            {
+                return _gameCell;
+            }
+            set
+            {
+                _gameCell = value;
+                NotifyPropertyChanged("GameCell");
+            }
+        }
 
         private ICommand _moveCommand;
         public ICommand MoveCommand

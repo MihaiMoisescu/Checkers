@@ -8,8 +8,8 @@ namespace Checkers.Enums
 {
     public enum PieceColor
     {
+        None=0,
         Red,
-        White,
-        None=0
+        White
     }
 }
