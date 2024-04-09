@@ -63,6 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\ActionCommands.cs" />
+    <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Enums\CellType.cs" />
     <Compile Include="Enums\PieceColor.cs" />
     <Compile Include="Enums\PieceType.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Models\Position.cs" />
     <Compile Include="Services\GameBusinessLogic.cs" />
     <Compile Include="Services\Helper.cs" />
+    <Compile Include="ViewModels\ActionsVM.cs" />
     <Compile Include="ViewModels\CellVM.cs" />
     <Compile Include="ViewModels\GameVM.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">

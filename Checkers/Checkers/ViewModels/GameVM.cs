@@ -9,15 +9,17 @@ using System.Threading.Tasks;
 
 namespace Checkers.ViewModels
 {
-    class GameVM
+    class GameVM :BaseNotification
     {
         private GameBusinessLogic businessLogic;
+        public ActionsVM Actions { get; set; }
         public ObservableCollection<ObservableCollection<CellVM>> GameBoard {  get; set; }
         public GameVM()
         {
             ObservableCollection<ObservableCollection<Cell>> board = Helper.InitBoard();
             businessLogic = new GameBusinessLogic(board);
             GameBoard = CellBoardToCellVMBoard(board);
+            Actions = new ActionsVM(businessLogic);
         }
         private ObservableCollection<ObservableCollection<CellVM>> CellBoardToCellVMBoard(ObservableCollection<ObservableCollection<Cell>> board)
         {

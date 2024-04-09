@@ -1,4 +1,5 @@
-﻿using Checkers.Enums;
+﻿using Checkers.Commands;
+using Checkers.Enums;
 using Checkers.Models;
 using Checkers.Services;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Checkers.ViewModels
 {
@@ -18,5 +20,18 @@ namespace Checkers.ViewModels
             this._businessLogic = businessLogic;
         }
         public Cell GameCell { get; set; }
+
+        private ICommand _moveCommand;
+        public ICommand MoveCommand
+        {
+            get
+            {
+                if(_moveCommand == null)
+                {
+                    _moveCommand = new RelayCommand<Cell>(_businessLogic.MoveCell);
+                }
+                return _moveCommand;
+            }
+        }
     }
 }
