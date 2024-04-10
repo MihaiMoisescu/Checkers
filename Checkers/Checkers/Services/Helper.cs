@@ -18,8 +18,8 @@ namespace Checkers.Services
         public const string redPieceKing = "D:\\SCOALA\\AN 2\\SEM 2\\MAP\\Checkers\\Checkers\\Checkers\\Resources\\redKingPiece.png";
         public const string whitePieceKing = "D:\\SCOALA\\AN 2\\SEM 2\\MAP\\Checkers\\Checkers\\Checkers\\Resources\\whiteKingPiece.png";
 
-
         public static Cell CurrentCell { get; set; }
+        public static Position CapturedCellPosition { get; set; }
 
         public static ObservableCollection<ObservableCollection<Cell>> InitBoard()
         {
@@ -48,15 +48,13 @@ namespace Checkers.Services
             }
             return board;
         }
+
         public static void ResetGame(ObservableCollection<ObservableCollection<Cell>> board)
         {
             board.Clear();
             board = InitBoard();
         }
-        public static bool IsCellEmpty(Cell cell)
-        {
-            return cell.Piece == null;
-        }
+        
     }
 
 }

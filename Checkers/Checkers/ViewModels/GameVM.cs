@@ -1,4 +1,5 @@
-﻿using Checkers.Models;
+﻿using Checkers.Enums;
+using Checkers.Models;
 using Checkers.Services;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,14 @@ namespace Checkers.ViewModels
     {
         private GameBusinessLogic businessLogic;
         public ActionsVM Actions { get; set; }
+        public GamePlayerVM Player { get; set; }
         public ObservableCollection<ObservableCollection<CellVM>> GameBoard {  get; set; }
         public GameVM()
         {
+            GamePlayer player = new GamePlayer(PieceColor.Red);
             ObservableCollection<ObservableCollection<Cell>> board = Helper.InitBoard();
-            businessLogic = new GameBusinessLogic(board);
+            businessLogic = new GameBusinessLogic(board,player);
+            Player = new GamePlayerVM(businessLogic, player);
             GameBoard = CellBoardToCellVMBoard(board);
             Actions = new ActionsVM(businessLogic);
         }
