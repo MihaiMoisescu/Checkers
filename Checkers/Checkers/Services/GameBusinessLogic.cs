@@ -10,8 +10,6 @@ using System.Windows.Documents;
 using System.Windows;
 using System.Threading;
 using Checkers.Enums;
-using System.Security.Cryptography.X509Certificates;
-using System.Runtime.CompilerServices;
 
 namespace Checkers.Services
 {
