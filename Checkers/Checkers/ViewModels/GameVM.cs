@@ -18,8 +18,8 @@ namespace Checkers.ViewModels
         public ObservableCollection<ObservableCollection<CellVM>> GameBoard {  get; set; }
         public GameVM()
         {
-            GamePlayer player = new GamePlayer(PieceColor.Red);
             ObservableCollection<ObservableCollection<Cell>> board = Helper.InitBoard();
+            GamePlayer player = new GamePlayer(PieceColor.Red);
             businessLogic = new GameBusinessLogic(board,player);
             Player = new GamePlayerVM(businessLogic, player);
             GameBoard = CellBoardToCellVMBoard(board);

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Checkers.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="610" Width="850" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <local:GameVM />
     </Window.DataContext>
@@ -33,12 +33,12 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Width="50" Height="50" BorderThickness="0.2" BorderBrush="#000000">
+                                <Border Width="60" Height="60" BorderThickness="0.2" BorderBrush="#000000">
                                     <Button Command="{Binding MoveCommand}" CommandParameter="{Binding GameCell}">
                                         <Button.Template>
                                             <ControlTemplate>
                                                 <Grid>
-                                                    
+
                                                     <Image Source="{Binding GameCell.Background}" Stretch="UniformToFill"/>
                                                     <Image Source="{Binding GameCell.Piece.Background}" Stretch="UniformToFill"/>
                                                 </Grid>
@@ -52,5 +52,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <Image Source="{Binding Player.GamePlayer.Image}" Margin="682,255,92,254" Height="58" Width="58"/>
     </Grid>
+
 </Window>

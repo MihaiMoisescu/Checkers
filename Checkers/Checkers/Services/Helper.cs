@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Annotations;
 
 namespace Checkers.Services
 {
@@ -18,9 +19,23 @@ namespace Checkers.Services
         public const string redPieceKing = "D:\\SCOALA\\AN 2\\SEM 2\\MAP\\Checkers\\Checkers\\Checkers\\Resources\\redKingPiece.png";
         public const string whitePieceKing = "D:\\SCOALA\\AN 2\\SEM 2\\MAP\\Checkers\\Checkers\\Checkers\\Resources\\whiteKingPiece.png";
 
+        public static int RED_PIECES= 12;
+        public static int WHITES_PIECES= 12;
         public static Cell CurrentCell { get; set; }
         public static Position CapturedCellPosition { get; set; }
-
+        private static List<Cell> _neighboardsWithPiece = new List<Cell>();
+        public static List<Cell> NeighboardsWithPiece
+        {
+            get
+            {
+                return _neighboardsWithPiece;
+            }
+            set
+            {
+                _neighboardsWithPiece = value;
+            }
+        }
+        
         public static ObservableCollection<ObservableCollection<Cell>> InitBoard()
         {
             ObservableCollection<ObservableCollection<Cell>> board=new ObservableCollection<ObservableCollection<Cell>>();
@@ -54,7 +69,34 @@ namespace Checkers.Services
             board.Clear();
             board = InitBoard();
         }
-        
+        public static Position Next(Cell currentCell,Cell occupiedCell)
+        {
+            int nexTX = occupiedCell.Position.X + (occupiedCell.Position.X - currentCell.Position.X);
+            int nextY= occupiedCell.Position.Y + (occupiedCell.Position.Y - currentCell.Position.Y);
+
+            return new Position(nexTX, nextY);
+        }
+        public static void ClearNeighboarWithPeace()
+        {
+            if(NeighboardsWithPiece!=null)
+                NeighboardsWithPiece.Clear();
+        }
+        public static void MakeKing()
+        {
+            if(CurrentCell.Piece.Type!=PieceType.King)
+            {
+                if(CurrentCell.Piece.Color==PieceColor.Red)
+                {
+                    CurrentCell.Piece.Type=PieceType.King;
+                    CurrentCell.Piece.Background = redPieceKing;
+                }
+                else
+                {
+                    CurrentCell.Piece.Type = PieceType.King;
+                    CurrentCell.Piece.Background = whitePieceKing;
+                }
+            }
+        }
     }
 
 }

@@ -47,7 +47,7 @@ namespace Checkers.Models
             set
             {
                 image = value;
-                NotifyPropertyChanged("PlayerImage");
+                NotifyPropertyChanged("Image");
             }
         }
     }

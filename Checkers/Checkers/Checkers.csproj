@@ -110,7 +110,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\about.txt" />
     <Resource Include="Resources\red.png" />
