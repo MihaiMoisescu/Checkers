@@ -21,10 +21,10 @@ namespace Checkers.Models
         {
             if (player == PieceColor.Red)
             {
-                image = Helper.redPiece;
+                image = Helper.redTurn;
                 return;
             }
-            image = Helper.whitePiece;
+            image = Helper.whiteTurn;
         }
         public PieceColor Player
         {

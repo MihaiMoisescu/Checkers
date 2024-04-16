@@ -16,49 +16,68 @@ namespace Checkers.Services
     class GameBusinessLogic
     {
         private ObservableCollection<ObservableCollection<Cell>> _board;
-        private GamePlayer _playerTurn;
-        private bool canCapture;
-        public GameBusinessLogic(ObservableCollection<ObservableCollection<Cell>> board, GamePlayer playerTurn)
+        public GamePlayer _playerTurn;
+        private PieceService _pieceService;
+        private bool _extraMove;
+        private bool _extraJump;
+        public GameBusinessLogic(ObservableCollection<ObservableCollection<Cell>> board, GamePlayer playerTurn,PieceService service)
         {
             this._board = board;
             this._playerTurn = playerTurn;
+            _pieceService= service;
+        }
+        public bool ExtraMove
+        {
+            get
+            {
+                return _extraMove;
+            }
+            set
+            {
+                _extraMove = value;
+            }
+        }
+        private void NewGameInitialization()
+        {
+            _pieceService.WhitePieces = 12;
+            _pieceService.RedPieces = 12;
+            _playerTurn.Player = PieceColor.Red;
+            _playerTurn.Image = Helper.redTurn;
         }
         private void CheckIfCanBeKingAndModify(Cell cell)
         {
             if(cell.Position.X==_board.Count-1||cell.Position.X==0)
             {
-                Helper.MakeKing();
+                Helper.MakeKing(cell);
             }
             
         }
         private void SwitchTurns(Cell cell)
         {
-            if (cell.Piece != null)
-            {
                 if (cell.Piece.Color == PieceColor.Red)
                 {
+                    Helper.GPlayer.Player = PieceColor.White;
+                    Helper.GPlayer.Image = Helper.whiteTurn;
                     _playerTurn.Player = PieceColor.White;
-                    _playerTurn.Image = Helper.whitePiece;
+                    _playerTurn.Image = Helper.whiteTurn;
                 }
                 else
                 {
+                    Helper.GPlayer.Player = PieceColor.Red;
+                    Helper.GPlayer.Image = Helper.redTurn;
                     _playerTurn.Player = PieceColor.Red;
-                    _playerTurn.Image = Helper.redPiece;
+                    _playerTurn.Image = Helper.redTurn;
                 }
-                canCapture = false;
                 Helper.ClearNeighboarWithPeace();
-            }
         }
         private List<Cell> FindWhiteMoves(Cell cell)
         {
             List<Cell> neighboards = new List<Cell>();
 
-            // Verificăm dacă celula se află pe ultima linie a bordului
             if (cell.Position.X == _board.Count - 1)
-                return neighboards;  // Nu există mutări posibile către vecinii de dedesubt
+                return neighboards; 
 
-            // Verificăm vecinul din dreapta-jos (X+1, Y+1)
-            if (cell.Position.Y < _board[cell.Position.X].Count - 1)  // Verificăm limita de coloane
+            if (cell.Position.Y < _board[cell.Position.X].Count - 1)  
             {
                 Cell neighbor = _board[cell.Position.X + 1][cell.Position.Y + 1];
                 if (neighbor.Piece != null)
@@ -66,8 +85,7 @@ namespace Checkers.Services
                 neighboards.Add(neighbor);
             }
 
-            // Verificăm vecinul din stânga-jos (X+1, Y-1)
-            if (cell.Position.Y > 0)  // Verificăm limita de coloane
+            if (cell.Position.Y > 0) 
             {
                 Cell neighbor = _board[cell.Position.X + 1][cell.Position.Y - 1];
                 if (neighbor.Piece != null)
@@ -81,13 +99,11 @@ namespace Checkers.Services
         private List<Cell> FindRedMoves(Cell cell)
         {
             List<Cell> neighboards = new List<Cell>();
-
-            // Verificăm dacă celula se află pe ultima linie a bordului
             if (cell.Position.X == 0)
-                return neighboards;  // Nu există mutări posibile către vecinii de deasupra
+                return neighboards;  
 
-            // Verificăm vecinul din stânga-sus (X-1, Y-1)
-            if (cell.Position.Y > 0)  // Verificăm limita de coloane
+
+            if (cell.Position.Y > 0) 
             {
                 Cell neighbor = _board[cell.Position.X - 1][cell.Position.Y - 1];
                 if (neighbor.Piece != null)
@@ -95,8 +111,7 @@ namespace Checkers.Services
                 neighboards.Add(neighbor);
             }
 
-            // Verificăm vecinul din dreapta-sus (X-1, Y+1)
-            if (cell.Position.Y < _board[cell.Position.X].Count - 1)  // Verificăm limita de coloane
+            if (cell.Position.Y < _board[cell.Position.X].Count - 1)  
             {
                 Cell neighbor = _board[cell.Position.X - 1][cell.Position.Y + 1];
                 if (neighbor.Piece != null)
@@ -112,13 +127,12 @@ namespace Checkers.Services
             {
                 foreach (Cell neighboarCell in Helper.NeighboardsWithPiece)
                 {
-                    if (neighboarCell.Piece.Color != currentCell.Piece.Color)
+                    if (neighboarCell.Piece != null&& neighboarCell.Piece.Color != currentCell.Piece.Color)
                     {
                         Position position = Helper.Next(currentCell, neighboarCell);
                         if(destinationCell.Position.X == position.X&&destinationCell.Position.Y==position.Y){
                             if (position.X <= _board.Count - 1 && position.Y <= _board.Count - 1 && _board[position.X][position.Y].Piece == null)
                             {
-                                canCapture = true;
                                 Helper.CapturedCellPosition = neighboarCell.Position;
                                 return true;
                             }
@@ -128,6 +142,39 @@ namespace Checkers.Services
             }
             return false;
 
+        }
+        private bool CanExtraJump(Cell cell)
+        {
+            if(ExtraMove==true)
+            {
+                Helper.ClearNeighboarWithPeace();
+                var moves=GetAllMoves(cell);
+                if(Helper.NeighboardsWithPiece!= null)
+                {
+                    foreach(Cell neighboar in  Helper.NeighboardsWithPiece)
+                    {
+                        Position position =Helper.Next(cell, neighboar);
+                        if(position.X>=0&&position.Y>=0&&position.X <= _board.Count -1&& position.Y <= _board.Count - 1 && _board[position.X][position.Y].Piece==null)
+                        {
+                             Helper.CapturedCellPosition=neighboar.Position;
+                            Helper.ExtraMovePosition=position;
+                            return true;
+                        }
+                    }
+                }
+                else
+                    return false;
+
+            }
+            return false;
+        }
+        private void DoExtraJump(Cell cell)
+        {
+            if(CanExtraJump(cell))
+            {
+                Capture();
+                MovePiece(cell, _board[Helper.ExtraMovePosition.X][Helper.ExtraMovePosition.Y]);
+            }
         }
         private List<Cell> GetAllMoves(Cell cell)
         {
@@ -145,21 +192,28 @@ namespace Checkers.Services
             CheckIfCanBeKingAndModify(destinationCell);
             _board[currentCell.Position.X][currentCell.Position.Y].Piece = null;
         }
+
         private void Capture()
         {
             PieceColor color = _board[Helper.CapturedCellPosition.X][Helper.CapturedCellPosition.Y].Piece.Color;
             _board[Helper.CapturedCellPosition.X][Helper.CapturedCellPosition.Y].Piece = null;
             if (color == PieceColor.Red)
+            {
+                _pieceService.RedPieces--;
                 Helper.RED_PIECES--;
+            }
             else
+            {
+                _pieceService.WhitePieces--;
                 Helper.WHITES_PIECES--;
+            }
         }
         private void Move(Cell currentCell,Cell destinationCell)
         {
             if (_playerTurn.Player == currentCell.Piece.Color&&currentCell!=destinationCell)
             {
                 var moves=GetAllMoves(currentCell);
-                if (canCapture == false&& !FindCapturePosition(currentCell,destinationCell))
+                if (!FindCapturePosition(currentCell,destinationCell))
                 {
                     foreach (var move in moves)
                     {
@@ -176,7 +230,14 @@ namespace Checkers.Services
                 {
                     MovePiece(currentCell, destinationCell);
                     Capture();
-                    SwitchTurns(destinationCell);
+                    if (CanExtraJump(destinationCell))
+                    {
+                        DoExtraJump(destinationCell);
+                        SwitchTurns(_board[Helper.ExtraMovePosition.X][Helper.ExtraMovePosition.Y]);
+
+                    }
+                    else
+                        SwitchTurns(destinationCell);
                 }
             }
         }
@@ -194,33 +255,49 @@ namespace Checkers.Services
             {
                 Move(Helper.CurrentCell, cell);
                 Helper.CurrentCell = null;
-                if (Helper.RED_PIECES == 0)
-                {
-                    MessageBox.Show("Alb a castigat");
-                }
-                else if(Helper.WHITES_PIECES==0)
-                    MessageBox.Show("Rosu a castigat");
             }
+            if(Helper.RED_PIECES==0||Helper.WHITES_PIECES==0)
+            {
+                GameOver();
+            }
+        }
+
+
+        public void GameOver()
+        {
+            if (Helper.RED_PIECES == 0)
+            {
+                MessageBox.Show("White wins!");
+            }
+            else if (Helper.WHITES_PIECES == 0)
+                MessageBox.Show("Red wins");
+            Helper.WriteScore();
+            NewGameInitialization();
+            Helper.ResetGame(_board);
         }
         public void NewGameAction()
         {
+            NewGameInitialization();
             Helper.ResetGame(_board);
         }
         public void OpenGame()
         {
-
+            Helper.OpenGame(_board,_playerTurn,_extraMove);
         }
         public void SaveGame()
         {
-
+            Helper.SaveGame(_board,_extraMove);
         }
         public void Statistics()
         {
-
+            Helper.ShowStatistics();
         }
         public void AllowMultipeJumps()
         {
-
+            if(ExtraMove==false)
+                ExtraMove = true;
+            else
+                ExtraMove = false;
         }
         public void AboutGame()
         {

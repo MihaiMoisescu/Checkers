@@ -5,24 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Checkers.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="610" Width="850" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" Height="700" Width="850" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <local:GameVM />
     </Window.DataContext>
     <Grid>
         <Menu DockPanel.Dock="Top" >
+            <Menu.Background>
+                <ImageBrush ImageSource="/Views/brown-aesthetic-wdan69t9mhfvfwqx.jpg"/>
+            </Menu.Background>
             <MenuItem Header="Settings">
                 <MenuItem Header="New Game" Command="{Binding Actions.NewGame}"/>
                 <MenuItem Header="Open Game" Command="{Binding Actions.OpenGame}"/>
                 <MenuItem Header="Save Game" Command="{Binding Actions.SaveGame}"/>
-                <MenuItem Header="Allow Multiple Jump" Command="{Binding Actions.AllowMultipleJumps}" />
+                <MenuItem Header="Allow Multiple Jump" Command="{Binding Actions.AllowMultipleJumps}"/>
                 <MenuItem Header="Statistics" Command="{Binding Actions.Statistics}"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="About" Command="{Binding Actions.AboutGame}"/>
             </MenuItem>
         </Menu>
-        <ItemsControl Name="grid" ItemsSource="{Binding GameBoard}" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <ItemsControl Name="grid" ItemsSource="{Binding GameBoard}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="39,44,0,0">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <ItemsControl ItemsSource="{Binding}">
@@ -52,7 +55,13 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <Image Source="{Binding Player.GamePlayer.Image}" Margin="682,255,92,254" Height="58" Width="58"/>
+        <TextBlock Text="White pieces left" Margin="548,44,101,515" FontFamily="Comic Sans MS" FontSize="24"/>
+        <Image Source="{Binding Player.GamePlayer.Image}" Margin="614,260,165,360" RenderTransformOrigin="-0.545,0.567"/>
+        <TextBlock Text="{Binding Service.WhitePieces}" Margin="754,44,38,515" FontFamily="Comic Sans MS" FontSize="24"/>
+        <TextBlock Text="Red pieces left" Margin="548,489,101,70" FontFamily="Comic Sans MS" FontSize="24"/>
+        <TextBlock Text="{Binding Service.RedPieces}" Margin="754,489,38,70" FontFamily="Comic Sans MS" FontSize="24"/>
+        <TextBlock Text="Turn:" Margin="543,267,222,290" FontFamily="Comic Sans MS" FontSize="24"/>
+        <Border BorderBrush="Black" BorderThickness="6" Margin="613,260,166,357"/>
     </Grid>
 
 </Window>

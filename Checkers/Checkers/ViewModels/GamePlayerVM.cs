@@ -12,6 +12,7 @@ namespace Checkers.ViewModels
     {
         GameBusinessLogic _gameBusinessLogic;
         GamePlayer _gamePlayer;
+
         public GamePlayerVM(GameBusinessLogic gameBusinessLogic, GamePlayer gamePlayer)
         {
             _gameBusinessLogic = gameBusinessLogic;

@@ -13,14 +13,18 @@ namespace Checkers.ViewModels
     class GameVM :BaseNotification
     {
         private GameBusinessLogic businessLogic;
+
         public ActionsVM Actions { get; set; }
         public GamePlayerVM Player { get; set; }
+        public PieceService Service { get; set; }
         public ObservableCollection<ObservableCollection<CellVM>> GameBoard {  get; set; }
         public GameVM()
         {
             ObservableCollection<ObservableCollection<Cell>> board = Helper.InitBoard();
             GamePlayer player = new GamePlayer(PieceColor.Red);
-            businessLogic = new GameBusinessLogic(board,player);
+            Service = new PieceService(this);
+            businessLogic = new GameBusinessLogic(board, player,Service);
+
             Player = new GamePlayerVM(businessLogic, player);
             GameBoard = CellBoardToCellVMBoard(board);
             Actions = new ActionsVM(businessLogic);

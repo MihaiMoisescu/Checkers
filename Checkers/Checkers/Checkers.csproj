@@ -75,6 +75,7 @@
     <Compile Include="Models\Position.cs" />
     <Compile Include="Services\GameBusinessLogic.cs" />
     <Compile Include="Services\Helper.cs" />
+    <Compile Include="Services\PieceService.cs" />
     <Compile Include="ViewModels\ActionsVM.cs" />
     <Compile Include="ViewModels\CellVM.cs" />
     <Compile Include="ViewModels\GamePlayerVM.cs" />
@@ -120,6 +121,22 @@
     <Resource Include="Resources\white1.png" />
     <Resource Include="Resources\whiteKingPiece.png" />
     <Resource Include="Resources\whitePiece.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\redturn.jpeg" />
+    <Resource Include="Resources\whiteturn.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\winner.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\wallpaper2.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\images.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\brown-aesthetic-wdan69t9mhfvfwqx.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
