@@ -293,7 +293,7 @@ namespace Checkers.Services
                 {
                     int.TryParse(text[1], out int whiteWin);
                     whiteWin++;
-                    text[0] = whiteWin.ToString();
+                    text[1] = whiteWin.ToString();
                 }
                 int.TryParse(text[2], out int redPieces);
                 if(redPieces<RED_PIECES)
